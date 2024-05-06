@@ -1,0 +1,1 @@
+const constraintsWidth = 600;
