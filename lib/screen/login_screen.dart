@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone_app/resourcre/auth_method.dart';
+import 'package:instagram_clone_app/responsive/mobile_screen_layout.dart';
+import 'package:instagram_clone_app/responsive/responsive_layout.dart';
+import 'package:instagram_clone_app/responsive/web_screen_layout.dart';
+import 'package:instagram_clone_app/screen/signup_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:instagram_clone_app/utils/utils.dart';
 import 'package:instagram_clone_app/widgets/input_text_field.dart';
@@ -25,9 +29,20 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isloading = false;
     });
-    if (loginResp != "sucess") {
+    if (loginResp == "sucess") {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+                MobileScreenLayot: MobileScreenLayot(),
+                WebScreenLayot: WebScreenLayot(),
+              )));
+    } else {
       showSnackbar(context, loginResp);
     }
+  }
+
+  void navigateToSignup() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const SignupScreen()));
   }
 
   @override
@@ -88,10 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         //  Navigator.of(context).push(route)
                       },
                       child: isloading
-                          ? CircularProgressIndicator(
+                          ? const CircularProgressIndicator(
                               color: Colors.white,
                             )
-                          : Text("Log In"))),
+                          : const Text("Log In"))),
               Flexible(
                 child: Container(),
                 flex: 2,
@@ -101,7 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   const Text("Don't Have an Account?"),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      navigateToSignup();
+                    },
                     child: const Text("Sign Up"),
                   )
                 ],

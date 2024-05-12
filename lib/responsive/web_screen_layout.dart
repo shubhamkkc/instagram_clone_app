@@ -5,6 +5,6 @@ class WebScreenLayot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: const Text("this is web screen"));
+    return const Scaffold(body: Text("this is web screen"));
   }
 }

@@ -1,10 +1,13 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_app/resourcre/auth_method.dart';
+import 'package:instagram_clone_app/responsive/mobile_screen_layout.dart';
+import 'package:instagram_clone_app/responsive/responsive_layout.dart';
+import 'package:instagram_clone_app/responsive/web_screen_layout.dart';
+import 'package:instagram_clone_app/screen/login_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:instagram_clone_app/utils/utils.dart';
 import 'package:instagram_clone_app/widgets/input_text_field.dart';
@@ -56,11 +59,22 @@ class _SignupScreenState extends State<SignupScreen> {
       print(res);
       if (res != "success") {
         showSnackbar(context, res);
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => const ResponsiveLayout(
+                  MobileScreenLayot: MobileScreenLayot(),
+                  WebScreenLayot: WebScreenLayot(),
+                )));
       }
     }
     setState(() {
       isloading = false;
     });
+  }
+
+  void navigateToLogin() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   @override
@@ -91,7 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         radius: 64,
                         backgroundImage: MemoryImage(_image!),
                       )
-                    : CircleAvatar(
+                    : const CircleAvatar(
                         radius: 64,
                         backgroundImage: NetworkImage(
                             "https://cdn-icons-png.freepik.com/512/1144/1144760.png")),
@@ -102,7 +116,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         onPressed: () async {
                           selectImage();
                         },
-                        icon: Icon(Icons.add_a_photo)))
+                        icon: const Icon(Icons.add_a_photo)))
               ]),
               const SizedBox(
                 height: 25,
@@ -158,8 +172,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         sinUpUser();
                       },
                       child: isloading
-                          ? CircularProgressIndicator(color: Colors.white)
-                          : Text("Sign up"))),
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text("Sign up"))),
               Flexible(
                 child: Container(),
                 flex: 2,
@@ -170,7 +184,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   const Text("Already Having an Account?"),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      navigateToLogin();
                     },
                     child: const Text("Log in"),
                   )

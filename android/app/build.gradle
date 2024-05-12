@@ -25,7 +25,9 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+
 android {
+    compileSdkVersion 34
     namespace "com.example.instagram_clone_app"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
