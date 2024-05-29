@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_app/models/user.dart';
 import 'package:instagram_clone_app/provider/user_provider.dart';
+import 'package:instagram_clone_app/screen/feed_screen.dart';
 import 'package:instagram_clone_app/screen/post_screen.dart';
+import 'package:instagram_clone_app/screen/profile_screen.dart';
+import 'package:instagram_clone_app/screen/search_screen.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +17,13 @@ class MobileScreenLayot extends StatefulWidget {
 
 class _MobileScreenLayotState extends State<MobileScreenLayot> {
   int _page = 0;
-  final List<Widget> pages = [Text("search"), Text("add post"), PostScreen()];
+  final List<Widget> pages = [
+    FeedScreen(),
+    SearchScreen(),
+    PostScreen(),
+    Text("fav"),
+    ProfileScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

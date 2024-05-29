@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_app/models/user.dart';
 import 'package:instagram_clone_app/provider/user_provider.dart';
-import 'package:instagram_clone_app/resourcre/post_mothod.dart';
+import 'package:instagram_clone_app/resourcre/fireStore_method.dart';
 import 'package:instagram_clone_app/utils/colors.dart';
 import 'package:instagram_clone_app/utils/liner_loader.dart';
 import 'package:instagram_clone_app/utils/utils.dart';
@@ -24,7 +24,6 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _caption.dispose();
   }
@@ -70,18 +69,36 @@ class _PostScreenState extends State<PostScreen> {
         });
   }
 
-  void uploadPost(String uId) async {
+  void uploadPost(User user) async {
     setState(() {
       isLoading = true;
     });
-    if (_file != null) {
-      String res = await PostMethod()
-          .postUpload(uid: uId, caption: _caption.text, postImage: _file!);
+    try {
+      String res = await FireStoreMethod().postUpload(
+        user: user,
+        caption: _caption.text,
+        postImage: _file!,
+      );
       print(res);
+
+      if (res == "success") {
+        showSnackbar(context, "Post uploaded successfully");
+      } else {
+        showSnackbar(context, res);
+      }
+    } catch (e) {
+      print(e);
     }
 
     setState(() {
       isLoading = false;
+    });
+    clearImage();
+  }
+
+  void clearImage() {
+    setState(() {
+      _file = null;
     });
   }
 
@@ -104,14 +121,14 @@ class _PostScreenState extends State<PostScreen> {
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    clearImage();
                   },
                 ),
                 actions: [
                   TextButton(
                       onPressed: () async {
                         print(_caption.text);
-                        uploadPost(user.uid);
+                        uploadPost(user);
                       },
                       child: Text(
                         "Post",
@@ -130,7 +147,7 @@ class _PostScreenState extends State<PostScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CircleAvatar(
-                          backgroundImage: NetworkImage(user!.photoUrl)),
+                          backgroundImage: NetworkImage(user.photoUrl)),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.4,
                           child: TextField(

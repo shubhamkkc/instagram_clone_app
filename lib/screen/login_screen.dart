@@ -51,79 +51,87 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(25),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Container(),
-                flex: 1,
+          child: Expanded(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top,
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Container(),
+                      flex: 1,
+                    ),
+                    SvgPicture.asset(
+                      "assets/images/ic_instagram.svg",
+                      height: 50,
+                      width: 100,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    TextFieldInput(
+                      keyboardType: TextInputType.text,
+                      controller: email,
+                      hintText: "Enter Your email",
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    TextFieldInput(
+                      keyboardType: TextInputType.text,
+                      controller: password,
+                      hintText: "Enter Your Password",
+                      isPass: true,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Container(
+                        width: double.infinity,
+                        height: 56,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8)),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: blueColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    8.0), // Adjust the radius as needed
+                              ),
+                            ),
+                            onPressed: () {
+                              logIn();
+                              //  Navigator.of(context).push(route)
+                            },
+                            child: isloading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : const Text("Log In"))),
+                    Flexible(
+                      child: Container(),
+                      flex: 2,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Don't Have an Account?"),
+                        TextButton(
+                          onPressed: () {
+                            navigateToSignup();
+                          },
+                          child: const Text("Sign Up"),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
-              SvgPicture.asset(
-                "assets/images/ic_instagram.svg",
-                height: 50,
-                width: 100,
-                color: Colors.white,
-              ),
-              const SizedBox(
-                height: 35,
-              ),
-              TextFieldInput(
-                keyboardType: TextInputType.text,
-                controller: email,
-                hintText: "Enter Your email",
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              TextFieldInput(
-                keyboardType: TextInputType.text,
-                controller: password,
-                hintText: "Enter Your Password",
-                isPass: true,
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Container(
-                  width: double.infinity,
-                  height: 56,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: blueColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              8.0), // Adjust the radius as needed
-                        ),
-                      ),
-                      onPressed: () {
-                        logIn();
-                        //  Navigator.of(context).push(route)
-                      },
-                      child: isloading
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const Text("Log In"))),
-              Flexible(
-                child: Container(),
-                flex: 2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Don't Have an Account?"),
-                  TextButton(
-                    onPressed: () {
-                      navigateToSignup();
-                    },
-                    child: const Text("Sign Up"),
-                  )
-                ],
-              )
-            ],
+            ),
           ),
         ),
       ),
